@@ -21,7 +21,7 @@ def convertir_noticia(noticia):
  
     # Devuelve la noticia convertida a diccionario
     return {
-        "publicado_en": datetime.strptime(meta.time.attrs["datetime"], "%Y-%m-%dT%H:%M:%S+00:00"),
+        "fecha_publicacion": datetime.strptime(meta.time.attrs["datetime"], "%Y-%m-%dT%H:%M:%S+00:00"),
         "enlace": f"{URL}{meta.attrs['href']}",
         "autor": noticia.find("div", {"class": "author"}).span.text,
         "categoria": noticia.find("a", {"class": "newcat"}).text,
@@ -58,7 +58,7 @@ def obtener_noticias(pagina_inicial=1, ultima_pagina=None, fecha_desde=None, fec
         
         for noticia in noticias:
             if noticia_convertida:=convertir_noticia(noticia):  # Asociación de variable dentro del if con operador morsa
-                if fecha_desde and noticia_convertida["publicado_en"] < fecha_desde:
+                if fecha_desde and noticia_convertida["fecha_publicacion"] < fecha_desde:
                     """
                         Si se indica la fecha desde la que se quieren noticias,
                         no es necesario continuar haciendo peticiones
@@ -66,7 +66,7 @@ def obtener_noticias(pagina_inicial=1, ultima_pagina=None, fecha_desde=None, fec
                     fecha_alcanzada = True
                     continue
 
-                if fecha_hasta and noticia_convertida["publicado_en"] > fecha_hasta:
+                if fecha_hasta and noticia_convertida["fecha_publicacion"] > fecha_hasta:
                     continue
 
                 noticias_convertidas.append(noticia_convertida)
@@ -74,12 +74,12 @@ def obtener_noticias(pagina_inicial=1, ultima_pagina=None, fecha_desde=None, fec
         peticiones_hechas += 1
         pagina_actual += 1
 
-    return sorted(noticias_convertidas, key=lambda x: x["publicado_en"], reverse=True), peticiones_hechas
+    return sorted(noticias_convertidas, key=lambda x: x["fecha_publicacion"], reverse=True), peticiones_hechas
 
 if __name__ == '__main__':
     noticias, peticiones_hechas = obtener_noticias() 
 
     for noticia in noticias:
-        print(f"{noticia['publicado_en']} - {noticia['titulo']} - {noticia['categoria']}")
+        print(f"{noticia['fecha_publicacion']} - {noticia['titulo']} - {noticia['categoria']}")
 
     print(f"Peticiones hechas: {peticiones_hechas}\nNúmero de noticias: {len(noticias)}")
