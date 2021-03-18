@@ -1,6 +1,8 @@
+from functools import reduce
 import requests
 from bs4 import BeautifulSoup
 from datetime import datetime
+
 
 
 URL = "https://www.elotrolado.net"
@@ -83,3 +85,23 @@ if __name__ == '__main__':
         print(f"{noticia['fecha_publicacion']} - {noticia['titulo']} - {noticia['categoria']}")
 
     print(f"Peticiones hechas: {peticiones_hechas}\nNúmero de noticias: {len(noticias)}")
+
+
+    def reduce_categorias(x, y):
+        resultado = x
+
+        if isinstance(x, tuple):
+            # La primera iteracion, x es una tupla
+            categoria, noticia = x
+            resultado = {categoria: noticia}
+
+        categoria, noticia = y
+        resultado[categoria] = [*noticia, *resultado.get(categoria, [])]  # Combina las listas de noticias
+    
+        return resultado
+
+    #reduce(lambda x, y: {**{x[0]: x[1]}, **{y[0]: y[1] if x[0] != y[0] else [*x[1], *y[1]]}} if isinstance(x, tuple) else {**x, **{y[0]: [*x.get(y[0], []),*y[1]]}}, map(lambda x: (x["categoria"], [x]), noticias))
+    a = reduce(reduce_categorias, map(lambda x: (x["categoria"], [x["titulo"]]), noticias))
+
+    print(a)
+    #else x[y[0]]+=y[1]
