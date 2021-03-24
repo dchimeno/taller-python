@@ -33,6 +33,8 @@ Una **migración** es la actualización de una tabla en una **base de datos** co
 
 Es decir, cada vez que necesitemos añadir un campo nuevo aun **modelo**, debemos generar **migraciones** que lo reflejen. En ese caso, además, debemos indicar como actuar con los registros ya existentes en esa tabla. Pero no te preocupes, es un comando incluido en `django-admin`: `makemigrations`. Con `python manage.py makemigrations` se generarán automáticamente las migraciones a aplicar, si existieran.
 
+Las **migraciones** se realizan de forma incremental, es decir, si ya hay **modelos** creados y se hacen modificaciones sobre ellos, crearán una nueva **migración** que añade ese cambio sobre la tabla existente.
+
 De hecho, cuando lanzamos el **servidor de desarrollo de Django** nos avisa si quedan **migraciones** pendientes de aplicar:
 
 ```

@@ -67,5 +67,5 @@ Lo común para desplegar proyectos **Django** es utilizar servidores como [uWSGI
 
 ## Ejercicios
 
-1. Crea un proyecto llamado upsa_news.
+1. Crea un proyecto llamado noticias_upsa.
 2. Lanza el servidor de desarrollo y accede, a través de tu navegador, a http://127.0.0.1:8000.

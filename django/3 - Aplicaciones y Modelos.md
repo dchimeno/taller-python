@@ -88,6 +88,6 @@ En ese caso, se añade una **relación** 1:1 de `Comentario` a `User` (un coment
 
 ## Ejercicios
 
-1. Crea una aplicación llamada `noticias` o `news`.
-2. Recupera la clase `Noticias` de la parte anterior y conviértela en un **modelo** de **Django**, aprovechando que ya tiene un constructor.
+1. Crea una aplicación llamada `noticias`.
+2. Recupera la clase `Noticias` de la parte anterior y conviértela en un **modelo** de **Django**. Date cuenta que ahora hereda de `Model`, por lo que no sirve el constructor anterior.
 3. Añade también el modelo `Comentario` del ejemplo.
