@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'noticias.apps.NoticiasConfig',
     'cuentas.apps.CuentasConfig',
+    'rest_framework'
 ]
 
 MIDDLEWARE = [
@@ -56,7 +57,7 @@ ROOT_URLCONF = 'noticias_upsa.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [BASE_DIR / "noticias_upsa" / "templates"],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [

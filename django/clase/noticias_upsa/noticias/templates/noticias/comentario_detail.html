@@ -1,0 +1,7 @@
+{% extends "base.html" %}
+
+{% block title %}{{ object.titulo }}{% endblock %}
+
+{% block content %}
+<div>{{ object.fecha_publicacion|date }} - {{ object.autor.username }}</div>
+{% endblock %}
