@@ -58,8 +58,51 @@ def helloworld(request):
     return HttpResponse("helloworld")
 
 ```
+Ahora vamos a implementar una vista de listado y otra de detalle de comentarios:
 
-Facil, ¿verdad? ¡Pues aún hay una forma más sencilla de trabajar! Con las `GenericView` de **Django**. Si vamos a crear **views** para modelos, podemos hacer lo siguiente:
+```python
+import os
+from django.http import Http404
+from django.shortcuts import render
+from django.views.decorators.http import require_http_methods
+from news.models import Comentario
+
+
+@require_http_methods(["GET"])
+def listado_comentarios(request):
+    context = {
+        "object_list": Comentario.objects.all()
+    }
+    
+    return render(request, os.path.join("news", "comentario_list.html"), context=context)
+
+@require_http_methods(["GET"])
+def detalle_comentario(request, pk):
+    try:
+        context = {
+            "object": Comentario.objects.get(pk=pk)
+        }
+    except Comentario.DoesNotExist:
+        raise Http404("No existe el comentario")
+    
+    return render(request, os.path.join("news", "comentario_detail.html"), context=context)
+```
+
+Y se agregaría a urls así:
+
+```python
+from django.urls import path
+from noticias import views as noticias_views
+
+
+urlpatterns = [
+    path('comentarios/', noticias_views.listado_comentarios, name="listado-comentario"),
+    path('comentarios/<int:pk>/', noticias_views.detalle_comentario, name="detalle-comentario"),
+]
+```
+
+
+Consiste en dos funciones que reciben como parámetro la petición, la cual se la pasamos a las plantillas junto con el resultado de un **queryset**. Facil, ¿verdad? ¡Pues aún hay una forma más sencilla de trabajar! Con las `GenericView` de **Django**:
 
 ```python
 from django.views.generic import ListView, DetailView
